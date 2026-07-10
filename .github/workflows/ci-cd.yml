@@ -25,11 +25,11 @@ jobs:
 
       - name: Step B - Execute Unit Tests
         run: |
-          pytest tests/test_logic.py
+          python -m pytest tests/test_logic.py
 
       - name: Step C - Execute Selenium UI Tests
         run: |
-          pytest tests/test_ui.py
+          python -m pytest tests/test_ui.py
 
       - name: Step D - Deployment Simulation
         if: success()

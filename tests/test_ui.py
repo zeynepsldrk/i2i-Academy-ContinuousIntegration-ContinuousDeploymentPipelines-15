@@ -1,8 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
 import pytest
 
 
@@ -15,19 +13,9 @@ def test_example_domain_loads():
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920,1080")
 
-    driver = None
-    try:
-        # Try to use webdriver-manager to set up ChromeDriver
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=chrome_options)
-    except Exception as e:
-        # Fallback to system ChromeDriver (necessary in Docker container environments)
-        try:
-            driver = webdriver.Chrome(options=chrome_options)
-        except Exception as fallback_err:
-            raise RuntimeError(
-                f"Failed to initialize Chrome WebDriver. Original error: {e}. Fallback error: {fallback_err}"
-            )
+    # Selenium 4+ automatically manages ChromeDriver and Chrome binary matching 
+    # using the built-in Selenium Manager, avoiding GitHub rate-limit issues.
+    driver = webdriver.Chrome(options=chrome_options)
 
     try:
         # Navigate to a public website

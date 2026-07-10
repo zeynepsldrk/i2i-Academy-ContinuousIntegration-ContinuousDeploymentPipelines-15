@@ -1,0 +1,37 @@
+name: CI/CD Testing & Deployment Pipeline
+
+on:
+  push:
+    branches: [ "**" ]
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Step A - Setup & Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Step B - Execute Unit Tests
+        run: |
+          pytest tests/test_logic.py
+
+      - name: Step C - Execute Selenium UI Tests
+        run: |
+          pytest tests/test_ui.py
+
+      - name: Step D - Deployment Simulation
+        if: success()
+        run: |
+          echo "All tests passed! Application successfully deployed to production."

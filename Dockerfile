@@ -29,5 +29,5 @@ ENV PYTHONUNBUFFERED=1
 # Copy the rest of the application files
 COPY . .
 
-# Run both unit and UI tests using pytest
-CMD ["pytest", "-v"]
+# Run both unit and UI tests using pytest via python -m to guarantee sys.path resolution
+CMD ["python", "-m", "pytest", "-v"]
